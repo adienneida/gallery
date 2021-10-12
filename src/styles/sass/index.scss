@@ -1,0 +1,106 @@
+@import "app";
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+.Add {
+  margin: 0 1rem;
+  .error {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+  }
+  .success {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+  }
+  .close {
+    float: right;
+    opacity: 0.3;
+    margin: 0 0.5rem;
+    &:hover {
+      font-weight: bolder;
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+  .label {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  .input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    margin: 0.3rem 0rem
+  }
+  .btn {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    background-color: #0b5468;
+    font-weight: 700;
+    color: white;
+    border: none;
+  }
+}
+
+.Filter {
+  margin: 0.5rem 1rem;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  padding: 1rem;
+  font-size: 16px;
+  .label {
+    margin-right: 10px;
+  }
+}
+
+.List {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+
+  .content {
+    padding: 5rem;
+    background-color: aqua;
+    height: 100px;
+    margin: 10px;
+  }
+  .description {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    margin: 10px;
+  }
+  .close {
+    float: right;
+    opacity: 0.3;
+    margin: 0 0.5rem;
+    &:hover {
+      font-weight: bolder;
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+}
