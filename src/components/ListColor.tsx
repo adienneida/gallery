@@ -13,8 +13,7 @@ interface IProp {
 
 
 interface IState {
-    colors: IColor[]; //As a variable to save default colors. It helps to reset the filtered data.
-    filterColors: IColor[]; //This is used to store a filtered colors.
+    colors: IColor[]; //The variable to store list colors.
     filters: string[]; //It contains any value to filter the data of colors.
 }
 
@@ -23,7 +22,6 @@ class ListColor extends Component<IProp, IState> {
         super(props);
         this.state = {
             colors: this.props.colors,
-            filterColors: this.props.colors,
             filters: []
         }
     }
@@ -42,34 +40,39 @@ class ListColor extends Component<IProp, IState> {
                     blue: rgb[2],
                     saturation: computeSaturation(rgb[0], rgb[1], rgb[2])
                 }
-            ],
-            filterColors: [
-                ...this.state.filterColors,
-                {
-                    hex: hexColor,
-                    removable: true,
-                    red: rgb[0],
-                    green: rgb[1],
-                    blue: rgb[2],
-                    saturation: computeSaturation(rgb[0], rgb[1], rgb[2])
-                }
             ]
         })
 
+        //Add new color item to local storage
+        const prevColors: IColor[] = JSON.parse(localStorage.getItem("colors") || "");
+        localStorage.setItem("colors", JSON.stringify([
+            ...prevColors,
+            {
+                hex: hexColor,
+                removable: true,
+                red: rgb[0],
+                green: rgb[1],
+                blue: rgb[2],
+                saturation: computeSaturation(rgb[0], rgb[1], rgb[2])
+            }
+        ]));
         this.updateColors(this.state.filters);
     }
 
     //Used to remove color from list
     removeColor(keyIndex: number) {
         this.setState({
-            colors: this.state.colors.filter((color, index) => index !== keyIndex),
-            filterColors: this.state.filterColors.filter((color, index) => index !== keyIndex),
-        })
+            colors: this.state.colors.filter((color, index) => index !== keyIndex)
+        });
+
+        //Update local storage
+        const prevColors: IColor[] = JSON.parse(localStorage.getItem("colors") || "");
+        localStorage.setItem("colors", JSON.stringify(prevColors.filter((color, index) => index !== keyIndex)));
     }
 
     //This method is used to set state of colors and re-render the list of colors
     updateColors(filters: string[]) {
-        let colors: IColor[] = this.state.filterColors;
+        let colors: IColor[] = this.state.colors;
         if (filters.includes("red")) {
             colors = this.state.colors.filter(item => item.red && item.red > 50);
         }
@@ -82,9 +85,8 @@ class ListColor extends Component<IProp, IState> {
         if (filters.includes("saturation")) {
             colors = this.state.colors.filter(item => item.saturation && item.saturation > 50);
         }
-
         this.setState({
-            filterColors: filters.length <= 0 ? this.state.colors : colors
+            colors: filters.length <= 0 ? JSON.parse(localStorage.getItem("colors") || '') : colors
         })
     }
 
@@ -109,7 +111,7 @@ class ListColor extends Component<IProp, IState> {
                 <AddColor onInput={(hexColor) => this.addColor(hexColor)}/>
                 <FilterColor onChecked={(filterValue, isChecked) => this.addFilter(filterValue, isChecked)}/>
                 <div className="List">
-                    {this.state.filterColors.map((color, index) => {
+                    {this.state.colors.map((color, index) => {
                         return (
                             <div key={index}>
                                 <div className="content" style={{backgroundColor:color.hex}}></div>

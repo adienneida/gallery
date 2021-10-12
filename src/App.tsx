@@ -28,7 +28,14 @@ class App extends Component<IProp, IState> {
 
   //Set default colors to local storage
   componentDidMount() {
-    localStorage.setItem("colors", JSON.stringify(this.state.colors));
+    if (localStorage.getItem("colors") === null) {
+      localStorage.setItem("colors", JSON.stringify(this.state.colors));
+    } else {
+      this.setState({
+        colors: JSON.parse(localStorage.getItem("colors") || "")
+      })
+    }
+    
   }
 
   render() {
