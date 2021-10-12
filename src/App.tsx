@@ -12,30 +12,27 @@ interface IState {
 class App extends Component<IProp, IState> {
   constructor(props: any) {
     super(props);
-    this.state = {
-      colors: Colors.map(Color => {
-        const rgb: number[] = convertHexToRgb(Color.hex)
-        return {
-          ...Color,
-          red: rgb[0],
-          green: rgb[1],
-          blue: rgb[2],
-          saturation: computeSaturation(rgb[0], rgb[1], rgb[2])
-        }
-      })
-    }
-  }
 
-  //Set default colors to local storage
-  componentDidMount() {
     if (localStorage.getItem("colors") === null) {
+      this.state = {
+        colors: Colors.map(Color => {
+          const rgb: number[] = convertHexToRgb(Color.hex)
+          return {
+            ...Color,
+            red: rgb[0],
+            green: rgb[1],
+            blue: rgb[2],
+            saturation: computeSaturation(rgb[0], rgb[1], rgb[2])
+          }
+        })
+      }
       localStorage.setItem("colors", JSON.stringify(this.state.colors));
     } else {
-      this.setState({
-        colors: JSON.parse(localStorage.getItem("colors") || "")
-      })
+      const colors: IColor[] = JSON.parse(localStorage.getItem("colors") || "")
+      this.state = {
+        colors
+      }
     }
-    
   }
 
   render() {
